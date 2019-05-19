@@ -1,74 +1,96 @@
-# Indonesian Numeral Spellers
-### **_(Ubah file README.md ini setelah program diselesaikan)_**
+<h1>Indonesian Numeral Speller</h1>
+by Leonardo / 13517048 - Calon IRK 2019
+<h2>Fungsi Program</h2>
 
-## Latar Belakang
-Mengeja angka merupakan salah satu kegiatan dasar yang dilakukan setiap harinya. Contoh kegiatan tersebut yaitu mengeja harga barang, nilai data, tanggal dan tahun, serta masih banyak lagi. Meskipun terkesan hal sepele, berdasarkan penelitian dari para dokter di Indonesia, seorang anak baru bisa membaca dan mengeja angka pada umur 4-6 tahun. Rentang usia tersebut tentunya terasa kurang cepat. Padahal, semakin cepat seorang bisa membaca dan mengeja angka, maka semakin cepat pula anak tersebut dapat belajar berhitung dan mempelajari hal-hal lainnya, bahkan termasuk belajar pemrograman.
+Berikut adalah fungsi dan prosedur yang terdapat pada file source code
+- <u>function</u> oneToEleven(angka : <u>integer</u>) -> string
+- <u>function</u> TwelvetoBillion(angka : <u>integer</u>) -> string
+- <u>function</u> IntToString(angka : <u>integer</u>) -> string<br>
+{fungsi utama pengubahan dari integer menjadi string}
+- <u>function</u> find(arr : <u>array of</u> string, val : string) -> <u>integer</u><br>
+{mengembalikan kemunculan pertama elemen val pada arr}
+- <u>function</u> baseStringToInt(kata : string) -> <u>integer</u>
+- <u>procedure</u> normalize(arr : <u>array of</u> string)
+- <u>function</u> getNum(arr_kata : <u>array</u> [0..12] <u>of</u> string) -> <u>integer</u>
+- <u>function</u> StringToInt(kata : string) -> <u>integer</u><br>
+{fungsi utama pengubahan dari string menjadi integer}
+- <u>procedure</u> methodPOST(gc : gin.Context)<br>
+{prosedur untuk fitur POST}
+- <u>procedure</u> methodGET(gc : gin.Context)<br>
+{prosedur untuk fitur GET}
 
-Dari permasalah di atas, maka diperlukanlah suatu sarana pembelajaran yang dapat membantu anak-anak balita di Indonesia untuk membaca dan mengeja angka. Dengan adanya solusi tersebut, diharapkan anak-anak dapat membaca dan mengeja angka lebih cepat sehingga mampu segera mempelajari hal-hal lebih besar lainnya dan tentunya meningkatkan tingkat pendidikan di Indonesia.
+<h2>Cara menjalankan</h2>
+Requirements:<br>
 
-## Spesifikasi
-Buatlah dalam bahasa pemrograman **_Go_**, sebuah web service berupa **_REST API_**, yang dapat mengeja (dalam bahasa Indonesia) dari angka yang diberikan serta menuliskan angka yang tepat dari masukkan ejaan angka (dalam bahasa Indonesia juga), dengan ketentuan-ketentuan sebagai berikut :
+- Pada komputer anda terinstalasi compiler bahasa pemrograman go (dapat dilihat di https://golang.org/doc/install).
+- Pada komputer anda terinstalasi library bahasa GO: gin dan cors (install dengan command ```go get -u github.com/gin_gonic/gin``` dan ```go get -u github.com/gin_contrib/cors```).
+- Memiliki aplikasi POSTMAN.
 
-1. Terdapat 2 buah endpoint API yang perlu dibuat, yaitu '**GET** /spell' yang menerima parameter angka, serta '**POST** /read' yang menerima body/payload berupa text/ejaan. Jika input parameter atau body/payload tidak valid, maka berikan response keterangan error/gagal dengan format dibebaskan.
+Langkah penjalanan program:<br>
 
-2. Sebagai REST API, maka response harus berupa JSON. Struktur data response JSON dibebaskan.
+- Masuk ke direktori mainprog.go disimpan.
+- Jalankan perintah ```go run mainprog.go```.
+- Buka pada Aplikasi POSTMAN dan buka ```localhost:8080``` (tempat Rest API dijalankan).
+- <b>CONVERTING</b>
+    - Untuk pengubahan String ke Integer, pindahkan method ke ```POST``` dan Send ```localhost:8080/read?text=<isi string anda>```.
+    - Untuk pengubahan Integer ke String, pindahkan method ke ```GET``` dan Send ```localhost:8080/spell?number=<isi angka anda>```.
+- Lihat hasilnya pada Body hasil status pengerjaan.
+- <b>WiP: program ini dapat dijalankan di sebuah aplikasi web/mobile.</b>
 
-3. Program dibuat dengan mengikuti standar development resmi Go (lihat referensi #3), yaitu environment kode program berada pada ```$GOPATH/src/```, misalkan ```$GOPATH/src/github.com/Indonesian-Numeral-Spellers```.
+<h2>Contoh request and response</h2>
+Gambar 1: POST dan input valid:<br>
 
-4. Arsitektur program dibebaskan (boleh mengikuti referensi-referensi _REST API with Go_ dari internet), namun harus tetap tersusun dengan rapi dan mengerti apa kegunaan setiap fungsi, file, serta package.
+![postvalid](Test/post_valid.jpg)<br>
 
-5. Batasan kasus uji : 2000000000 (dua milyar)
+Gambar 2: POST dan input tidak valid:<br>
 
-## Contoh Kasus Uji
-### Contoh Kasus Uji 1 : Pengejaan
-Request :
+![postinvalid](Test/post_invalid.jpg)<br>
+
+Gambar 3: GET dan input valid:<br>
+
+![getvalid](Test/get_valid.jpg)<br>
+
+Gambar 4: GET dan input tidak valid:<br>
+
+![getinvalid](Test/get_invalid.jpg)<br>
+
+<h2>Arsitektur kode Go</h2>
+
 ```
-GET '/spell?number=123456'
+$GOPATH
+|---src
+    |---bufio
+    |   |---*lib
+    |
+    |---fmt
+    |   |---*lib
+    |
+    |---github.com
+    |   |---Indonesian-Numeral-Spellers
+    |   |   |---src
+    |   |   |   |---mainprog.go
+    |   |   |
+    |   |   |---Test
+    |   |   |   |---*screenshot hasil
+    |   |   |
+    |   |   |---README.md
+    |   |
+    |   |---gin_contrib
+    |   |   |---cors
+    |   |       |---*lib
+    |   |
+    |   |---gin_gonic
+    |   |   |---gin
+    |   |       |---*lib
+    |   
+    |---os
+    |   |---*lib
+    |
+    |---strconv
+    |   |---*lib
+    |
+    |---strings
+    |   |---*lib
 ```
-Response :
-```JSON
-STATUS CODE 200
-{
-    "status" : "OK",
-    "text" : "seratus dua puluh tiga ribu empat ratus lima puluh enam"
-}
-```
-### Contoh Kasus Uji 2 : Pembacaan
-Request:
-```JSON
-POST '/read'
-{
-    "text" : "seribu sembilan ratus sembilan puluh tujuh"
-}
-```
-Response :
-```JSON
-STATUS CODE 200
-{
-    "status" : "OK",
-    "number" : 1997
-}
-```
-
-## Bonus
-Buatlah sebuah aplikasi mobile atau website dengan tampilan menarik, yang menggunakan kedua API tersebut. Semakin menarik tampilan, semakin tinggi poin yang akan didapat.
-
-Teknologi yang direkomendasikan : **React.js**
-
-## Penilaian
-- Kebenaran fungsionalitas program.
-- Kebenaran API.
-- Pemahaman tentang bahasa pemrograman **Go** serta **REST API**.
-- Kerapihan _repository_ & kode, termasuk **README** (fungsi program, contoh request & response dari setiap endpoint) dan **arsitektur kode Go**.
-- UI (bonus).
-
-Nilai maksimum yang bisa didapatkan adalah **1600 (2600 dengan bonus)** poin. <br>
-_(Seribu Enam Ratus)_
-
-## Referensi Pengerjaan _(sangat disarankan untuk diikuti dengan baik)_
-1. https://golang.org/doc/install
-2. https://github.com/golang/go/wiki/SettingGOPATH
-3. https://golang.org/doc/code.html#Introduction
-4. https://tour.golang.org/welcome/1
-5. https://openclassrooms.com/en/courses/3432056-build-your-web-projects-with-rest-apis/3496011-identify-examples-of-rest-apis
-6. https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
+*beberapa directory/file yang tidak dirasa penting untuk dicantumkan tidak dicantumkan<br>
+*beberapa directory/file yang tidak dirasa penting untuk dijelaskan tidak dijelaskan
