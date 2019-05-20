@@ -40,7 +40,7 @@ func oneToEleven(angka int) string {
 	case 11:
 		return "sebelas"
 	default:
-		return "NaN"
+		return "Input tidak Valid"
 	}
 }
 
@@ -75,7 +75,7 @@ func TwelveToBillion(angka int) string {
 			//milyaran (spek hanya sampai satu digit di depan milyar)
 			return oneToEleven(angka/1000000000) + " milyar " + TwelveToBillion(angka%1000000000)
 		} else {
-			return "NaN"
+			return "Input tidak Valid"
 		}
 	}
 }
@@ -87,7 +87,7 @@ func IntToString(angka int) string {
 	} else if angka > 0 {
 		return TwelveToBillion(angka)
 	} else {
-		return "NaN"
+		return "Input tidak Valid"
 	}
 }
 
@@ -239,7 +239,7 @@ func methodPOST(gc *gin.Context) {
 	if res < 0 { //string invalid (ada kata di string yang tidak ada)
 		gc.JSON(200, gin.H{
 			"status": "OK",
-			"number": "NaN",
+			"number": "Input tidak Valid",
 		})
 	} else {
 		gc.JSON(200, gin.H{
@@ -256,7 +256,7 @@ func methodGET(gc *gin.Context) {
 	if num < 0 || err != nil { //angka invalid
 		gc.JSON(200, gin.H{
 			"status": "OK",
-			"text":   "NaN",
+			"text":   "Input tidak Valid",
 		})
 	} else {
 		res := IntToString(num)
